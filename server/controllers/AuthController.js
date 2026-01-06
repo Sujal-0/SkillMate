@@ -117,7 +117,7 @@ export const logout = async (request, response, next) => {
         });
         return response.status(200).send("Logged out successfully");
     } catch (error) {
-        console.error(error.stack || error);
-        return response.status(500).send(error.message || "Internal server error");
+        console.log({ error });
+        return response.status(500).send("Internal server error");
     }
 }

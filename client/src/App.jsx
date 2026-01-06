@@ -93,8 +93,9 @@ const App = () => {
           }
         />
 
-        {/* FALLBACK */}
-        <Route path="*" element={<Navigate to="/auth" replace />} />
+        {/* DEFAULT & FALLBACK */}
+        <Route path="/" element={<Navigate to="/landing" replace />} />
+        <Route path="*" element={<Navigate to="/landing" replace />} />
         <Route path="/landing" element={<Landing />} />
       </Routes>
     </BrowserRouter>

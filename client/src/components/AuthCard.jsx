@@ -80,7 +80,7 @@ const AuthCard = () => {
       }
       console.log({ response });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       toast.error(error?.response?.data || error.message || "Signup failed");
     }
   };
