@@ -15,12 +15,22 @@ const app = express();
 const port = process.env.PORT || 3000;
 const databaseURL = process.env.DATABASE_URL;
 
-app.use(cors({
-    origin: [process.env.ORIGIN],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+const allowedOrigins = [process.env.ORIGIN, "http://localhost:5173", "http://localhost:5174"].filter(Boolean);
+console.log("CORS allowed origins:", allowedOrigins);
+const corsOptions = {
+    origin(origin, callback) {
+        // allow requests with no origin (like curl or server-to-server)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        console.warn("Blocked CORS request from origin:", origin);
+        return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+
 
 // app.use("/uploads/profiles", express.static("uploads/profiles"));
 // app.use("/uploads/files", express.static("uploads/files"));
